@@ -16,6 +16,8 @@ on:
 
 permissions:
   contents: write
+  id-token: write
+  attestations: write
 
 concurrency:
   group: release
@@ -91,13 +93,45 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: bash tools/release/build-installer.sh
 
+      # Ways for a player to check the download before running it: a SHA-256 checksum, a
+      # signed GitHub attestation that this workflow built it, and (when the repo has a
+      # VIRUSTOTAL_API_KEY secret) a VirusTotal scan.
+      - name: Checksum, attestation and scan
+        id: trust
+        if: steps.plan.outputs.build == 'true'
+        env:
+          VT_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
+        run: |
+          cd release-out
+          sha=$(sha256sum MaplePal-Field-Guide-setup.exe | cut -d' ' -f1)
+          echo "$sha  MaplePal-Field-Guide-setup.exe" > SHA256SUMS.txt
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          scan=""
+          if [[ -n "$VT_KEY" ]]; then
+            upload=$(curl -fsS -H "x-apikey: $VT_KEY" https://www.virustotal.com/api/v3/files/upload_url | python -c "import json,sys; print(json.load(sys.stdin)['data'])") \
+              && curl -fsS -H "x-apikey: $VT_KEY" -F "file=@MaplePal-Field-Guide-setup.exe" "$upload" >/dev/null \
+              && scan="https://www.virustotal.com/gui/file/$sha" \
+              || echo "::warning::The VirusTotal upload failed; the release goes out without a scan link."
+          fi
+          {
+            echo
+            echo '### Check this download'
+            echo
+            echo "- SHA-256: \`$sha\`"
+            echo '- Built by this repository'"'"'s public GitHub Actions workflow, with a signed build attestation: run `gh attestation verify MaplePal-Field-Guide-setup.exe --repo '"$GITHUB_REPOSITORY"'`'
+            if [[ -n "$scan" ]]; then echo "- [VirusTotal scan]($scan)"; fi
+          } >> notes.md
+      - uses: actions/attest-build-provenance@v2
+        if: steps.plan.outputs.build == 'true'
+        with:
+          subject-path: release-out/MaplePal-Field-Guide-setup.exe
       - name: Publish
         if: steps.plan.outputs.build == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           version=$(cat release-out/version.txt)
-          files=(release-out/MaplePal-Field-Guide-setup.exe release-out/MaplePal-Field-Guide-setup.exe.sig release-out/latest.json)
+          files=(release-out/MaplePal-Field-Guide-setup.exe release-out/MaplePal-Field-Guide-setup.exe.sig release-out/latest.json release-out/SHA256SUMS.txt)
           if [[ "${{ steps.plan.outputs.test }}" == true ]]; then
             tag="test-$(git rev-parse --short HEAD)"
             gh release delete "$tag" --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes >/dev/null 2>&1 || true

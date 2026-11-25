@@ -13,6 +13,8 @@ Look anything up, get directions from where you stand, follow your quests and se
 <img alt="Windows 10 and 11, 64-bit" src="https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-3b5b8f">
 <img alt="Updates itself" src="https://img.shields.io/badge/updates-automatic-4caf7a">
 
+<sub>Not sure it's safe? See <a href="#is-it-safe">what it does and how to check the download</a>.</sub>
+
 <br><br>
 
 <img src="docs/hero.png" alt="The Field guide home, Directions, Training and Prices screens" width="100%">
@@ -55,6 +57,36 @@ Hover over an item in MapleStory and its price shows up in the widget: the last 
 4. If MapleStory isn't installed in `C:\Nexon\Library\maplestorycw`, open **Window settings → Open with MapleStory → Change** and choose its `MapleStory.exe`.
 
 **Requirements:** 64-bit Windows 11, or Windows 10 version 2004 or later. If the PC doesn't have Microsoft Edge WebView2, the installer downloads it.
+
+## Is it safe?
+
+<table>
+<tr><th>✅ What it does</th><th>🚫 What it never does</th></tr>
+<tr><td valign="top">
+
+- Captures the MapleStory window, the way OBS or a screenshot tool does, to read the minimap, EXP bar and the item you hover over
+- Reads the game's installed files for maps, quests and items
+- Connects to GitHub for updates, and to Cozy Market and MesoWatch for prices
+- Saves its data in your own user folder
+
+</td><td valign="top">
+
+- Read or change the game's memory, or inject anything into the game
+- Press keys or click for you (no botting or macros)
+- Ask for your Nexon or MapleStory login
+- Send your quests, Training history or settings anywhere
+
+</td></tr>
+</table>
+
+**Check the download yourself**
+
+- **Scan it:** upload the installer to [VirusTotal](https://www.virustotal.com), which runs it past about 70 antivirus engines. When a release's notes include a VirusTotal link, that scan was made by the same workflow that built the file.
+- **Compare the checksum:** each release lists the installer's SHA-256 in its notes and in `SHA256SUMS.txt`. In PowerShell, run `Get-FileHash .\MaplePal-Field-Guide-setup.exe`. The hash should match exactly.
+- **See where it was built:** every installer is built by this repository's public [Actions workflow](.github/workflows/release.yml), and the [build logs](https://github.com/gagandeepgill/maple-pal-public/actions) are public. Each build has a signed GitHub attestation. With the GitHub CLI, `gh attestation verify MaplePal-Field-Guide-setup.exe --repo gagandeepgill/maple-pal-public` confirms the file came from that workflow and wasn't changed after.
+- **Updates are signed:** the widget installs an update only if it carries the release signature, so a tampered download is refused.
+
+**Why does Windows warn about it?** SmartScreen shows "Windows protected your PC" for any new app that hasn't been code-signed and downloaded by many people yet. It isn't a virus detection. Click **More info**, then **Run anyway**.
 
 ## FAQ
 
