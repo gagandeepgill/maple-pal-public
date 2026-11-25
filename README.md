@@ -1,7 +1,97 @@
-# MaplePal Field Guide downloads
+<div align="center">
 
-**[Download the installer](https://github.com/gagandeepgill/maple-pal-public/releases/latest/download/MaplePal-Field-Guide-setup.exe)** for Windows 10 (2004 or later) and Windows 11, 64-bit. It installs for your Windows user only, with no admin prompt, and updates itself after that.
+# MaplePal Field Guide
 
-Until the installer is code-signed, Windows SmartScreen may say "Windows protected your PC". Click **More info**, then **Run anyway**.
+**A glass companion window that docks beside MapleStory.**<br>
+Look anything up, get directions from where you stand, follow your quests and see what your training is really earning, without alt-tabbing to a wiki.
 
-This repository holds only the installer, its update signature, the update feed (`latest.json`) and the workflow that builds them. It holds no source code and no game, catalog or player data.
+<a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest/download/MaplePal-Field-Guide-setup.exe"><img alt="Download for Windows" src="https://img.shields.io/badge/Download_for_Windows-setup.exe-f0a35e?style=for-the-badge&logo=windows&logoColor=white"></a>
+
+<a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest"><img alt="Latest version" src="https://img.shields.io/github/v/release/gagandeepgill/maple-pal-public?label=latest&color=3b5b8f"></a>
+<img alt="Windows 10 and 11, 64-bit" src="https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-3b5b8f">
+<img alt="Updates itself" src="https://img.shields.io/badge/updates-automatic-4caf7a">
+
+<br><br>
+
+<img src="docs/hero.png" alt="The Field guide home, Directions, Training and Prices screens" width="100%">
+
+</div>
+
+## What it does
+
+### 📖 Field guide
+Search one catalog of mobs, maps, quests, items, NPCs, recipes, skills, shops, furniture and appearances. Press <kbd>Ctrl</kbd> <kbd>K</kbd> to search, then open a record to see its stats, drops, spawn maps and where to find it. Everything is local, so results show up as you type.
+
+### 🧭 Directions from where you stand
+Pick a destination and the guide reads your minimap to find out where you are. It then draws the route on the real map art: which portal to take, when to climb, and when a taxi or town scroll is quicker.
+
+### 📜 Quest guide
+<img src="docs/quests.png" alt="Quest guide card with accept, collect and turn-in steps" width="420" align="right">
+
+Each quest is laid out as **Accept → Collect → Turn in**, with the map, the monster and how far away it is. The guide reads your quest log and Etc inventory to know which step you're on. **Plan all quests in one route** chains a whole questline into one trip.
+
+<br clear="right">
+
+### ⚔️ Training tracker
+Start tracking and the widget reads your EXP bar: EXP per minute, your best minute, time to next level, and how this visit compares with your average. It also counts mesos and drops, the potions you used and their cost, and your kills (yours and your party's), and shows your net profit. It can start by itself once you're hunting. Every visit is saved to **History** so you can compare maps.
+
+<p align="center"><img src="docs/training.png" alt="Live training session" width="300">&nbsp;&nbsp;<img src="docs/visit.png" alt="A saved visit in History" width="300"></p>
+
+### 💰 Prices
+Hover over an item in MapleStory and its price shows up in the widget: the last sale, median sale and median asking price, recent sales by channel, and how the price moved this week. Prices come from Cozy Market and MesoWatch.
+
+### 🪟 Made to sit beside the game
+- **Dock** snaps it to the edge of the screen. **Focus** brings it forward when you return to the game, and MapleStory keeps your keyboard.
+- **Open with MapleStory** starts the widget when the game comes to the front.
+- It reads only what the game already shows on screen and its installed files. It never changes the game or its files.
+
+## Install
+
+1. **[Download `MaplePal-Field-Guide-setup.exe`](https://github.com/gagandeepgill/maple-pal-public/releases/latest/download/MaplePal-Field-Guide-setup.exe)** and run it. It installs for your Windows user only, with no admin prompt, and adds a Start menu entry.
+2. If Windows says **"Windows protected your PC"**, click **More info**, then **Run anyway**. This shows up because the installer isn't code-signed yet.
+3. Open **MaplePal Field Guide** from the Start menu. On the first start, click **Import from another PC** to load a data pack, or **Download catalog**.
+4. If MapleStory isn't installed in `C:\Nexon\Library\maplestorycw`, open **Window settings → Open with MapleStory → Change** and choose its `MapleStory.exe`.
+
+**Requirements:** 64-bit Windows 11, or Windows 10 version 2004 or later. If the PC doesn't have Microsoft Edge WebView2, the installer downloads it.
+
+## FAQ
+
+<details>
+<summary><b>How does it update?</b></summary>
+
+It checks for a new version every 30 minutes and downloads it in the background. The update installs when you click **Restart to update**, when you close the widget, or after 10 idle minutes when nothing is being tracked. A small progress bar shows for about 20 seconds. Every update is checked against a signature before it installs.
+</details>
+
+<details>
+<summary><b>Is my data uploaded anywhere?</b></summary>
+
+No. Your quest progress, Training history and settings stay on your PC in `%LOCALAPPDATA%\MaplePal\FieldGuide`. Updates and reinstalls never touch them. This repository holds only the installer and its update files. It has no source code and no player data.
+</details>
+
+<details>
+<summary><b>Does it work for any character or server?</b></summary>
+
+Yes. Nothing is tied to one character or account. Quest and Training progress builds up from whichever character you're playing on that PC.
+</details>
+
+<details>
+<summary><b>Does it work on Mac?</b></summary>
+
+Not directly. It's a Windows app, so on a Mac it needs a Windows virtual machine that can also run MapleStory.
+</details>
+
+<details>
+<summary><b>The Training tracker or Prices show nothing.</b></summary>
+
+Keep the MapleStory window visible, not minimised, with the EXP bar showing. Training reads the HUD, and Prices reads the item you're hovering over.
+</details>
+
+<details>
+<summary><b>How do I uninstall it?</b></summary>
+
+First turn off **Open with MapleStory** so its sign-in watcher is removed too. Then uninstall **MaplePal Field Guide** from **Settings → Apps**. Your data stays unless you tick **Delete the application data**.
+</details>
+
+---
+
+<sub>MaplePal Field Guide is a fan-made tool and is not affiliated with or endorsed by Nexon. MapleStory is a trademark of Nexon.</sub>
