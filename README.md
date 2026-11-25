@@ -13,7 +13,7 @@ Look anything up, get directions from where you stand, follow your quests and se
 <img alt="Windows 10 and 11, 64-bit" src="https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-3b5b8f">
 <img alt="Updates itself" src="https://img.shields.io/badge/updates-automatic-4caf7a">
 
-<sub>Not sure it's safe? See <a href="#is-it-safe">what it does and how to check the download</a>.</sub>
+🔒 **Every download ships a SHA-256 checksum and a signed GitHub build attestation** you can verify, and a separate window that never touches the game. <a href="#is-it-safe">Is it safe? →</a>
 
 <br><br>
 
@@ -71,6 +71,7 @@ Hover over an item in MapleStory and its price shows up in the widget: the last 
 
 </td><td valign="top">
 
+- Draw on top of the game or hook into it — it's a separate window you dock beside MapleStory, **not an overlay**
 - Read or change the game's memory, or inject anything into the game
 - Press keys or click for you (no botting or macros)
 - Ask for your Nexon or MapleStory login
