@@ -1,0 +1,114 @@
+name: Release
+
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Build even if main has not moved
+        type: boolean
+        default: false
+      ref:
+        description: Branch to build. Anything but main becomes a test pre-release that the next main release replaces.
+        type: string
+        default: main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    timeout-minutes: 75
+    defaults:
+      run:
+        shell: bash
+    steps:
+      # A read-only deploy key on the private repo; nothing else of it is reachable from here.
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.SOURCE_REPO }}
+          ssh-key: ${{ secrets.SOURCE_DEPLOY_KEY }}
+          ref: ${{ inputs.ref || 'main' }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Compare main with the newest release
+        id: plan
+        run: |
+          main=$(git rev-parse HEAD)
+          if [[ "${{ inputs.ref || 'main' }}" != main ]]; then
+            echo "test=true" >>"$GITHUB_OUTPUT"
+          fi
+          released=$(curl -fsSL "https://github.com/$GITHUB_REPOSITORY/releases/latest/download/latest.json" 2>/dev/null | jq -r '.commit // empty' || true)
+          echo "previous=$released" >>"$GITHUB_OUTPUT"
+          if [[ $main == "$released" && "${{ inputs.force }}" != true && "${{ inputs.ref || 'main' }}" == main ]]; then
+            echo "Main is already released."
+            echo "build=false" >>"$GITHUB_OUTPUT"
+          else
+            echo "build=true" >>"$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.plan.outputs.build == 'true'
+        with:
+          python-version: '3.13'
+
+      - uses: actions/setup-node@v4
+        if: steps.plan.outputs.build == 'true'
+        with:
+          node-version: '24'
+
+      - uses: dtolnay/rust-toolchain@stable
+        if: steps.plan.outputs.build == 'true'
+
+      - uses: Swatinem/rust-cache@v2
+        if: steps.plan.outputs.build == 'true'
+        with:
+          workspaces: desktop/src-tauri
+
+      - name: Fast tests
+        if: steps.plan.outputs.build == 'true'
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r requirements-widget.txt
+          python -m unittest discover -s tests -q 2>&1 | tail -n 3
+          npm --prefix desktop ci --no-audit --no-fund --loglevel=error
+          npm --prefix desktop test -- --reporter=dot 2>&1 | tail -n 4
+
+      - name: Build the installer
+        if: steps.plan.outputs.build == 'true'
+        env:
+          FIELD_GUIDE_UPDATE_REPO: ${{ github.repository }}
+          FIELD_GUIDE_PREVIOUS_COMMIT: ${{ steps.plan.outputs.previous }}
+          FIELD_GUIDE_ALLOW_TEST: ${{ steps.plan.outputs.test == 'true' && '1' || '0' }}
+          TAURI_UPDATER_PUBKEY: ${{ vars.TAURI_UPDATER_PUBKEY }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: bash tools/release/build-installer.sh
+
+      - name: Publish
+        if: steps.plan.outputs.build == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(cat release-out/version.txt)
+          files=(release-out/MaplePal-Field-Guide-setup.exe release-out/MaplePal-Field-Guide-setup.exe.sig release-out/latest.json)
+          if [[ "${{ steps.plan.outputs.test }}" == true ]]; then
+            tag="test-$(git rev-parse --short HEAD)"
+            gh release delete "$tag" --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes >/dev/null 2>&1 || true
+            gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target "${{ github.sha }}" --prerelease \
+              --title "Test build v$version (${{ inputs.ref }})" --notes-file release-out/notes.md "${files[@]}"
+            echo "Download: https://github.com/$GITHUB_REPOSITORY/releases/download/$tag/MaplePal-Field-Guide-setup.exe"
+            exit 0
+          fi
+          if gh release view "v$version" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "v$version is already published."
+            exit 0
+          fi
+          gh release create "v$version" --repo "$GITHUB_REPOSITORY" --target "${{ github.sha }}" \
+            --title "MaplePal Field Guide v$version" --notes-file release-out/notes.md --latest "${files[@]}"
