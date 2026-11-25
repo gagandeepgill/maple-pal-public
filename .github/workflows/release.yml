@@ -102,7 +102,7 @@ jobs:
             tag="test-$(git rev-parse --short HEAD)"
             gh release delete "$tag" --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes >/dev/null 2>&1 || true
             gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target "${{ github.sha }}" --prerelease \
-              --title "Test build v$version (${{ inputs.ref }})" --notes-file release-out/notes.md "${files[@]}"
+              --title "Test build v$version" --notes-file release-out/notes.md "${files[@]}"
             echo "Download: https://github.com/$GITHUB_REPOSITORY/releases/download/$tag/MaplePal-Field-Guide-setup.exe"
             exit 0
           fi
