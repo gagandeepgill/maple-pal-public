@@ -123,8 +123,9 @@ jobs:
               && scan="https://www.virustotal.com/gui/file/$sha" \
               || echo "::warning::The VirusTotal upload failed; the release goes out without a scan link."
           fi
-          # The README badge reads virustotal.json (a shields.io endpoint) from the rolling
-          # "virustotal" release. Wait up to 8 minutes for the engines to finish.
+          # The README's VirusTotal badge shows the result: wait up to 8 minutes for the
+          # engines to finish.
+          flagged=0 total=0
           if [[ -n $scan ]]; then
             message=scanned color=blue last=""
             for _ in $(seq 32); do
@@ -140,9 +141,12 @@ jobs:
               else color=red; fi
               break
             done
+            [[ $message == scanned ]] && flagged=0 total=0
             printf '{"schemaVersion":1,"label":"VirusTotal","message":"%s","color":"%s"}\n' "$message" "$color" > virustotal.json
             echo "VirusTotal: $message"
           fi
+          echo "flagged=$flagged" >> "$GITHUB_OUTPUT"
+          echo "total=$total" >> "$GITHUB_OUTPUT"
           echo "scan=$scan" >> "$GITHUB_OUTPUT"
           {
             echo
@@ -158,6 +162,11 @@ jobs:
         if: steps.plan.outputs.build == 'true'
         with:
           subject-path: release-out/MaplePal-Field-Guide-setup.exe
+      # This repository itself, to redraw the README's VirusTotal badge.
+      - uses: actions/checkout@v4
+        if: steps.plan.outputs.build == 'true'
+        with:
+          path: site
       - name: Publish
         if: steps.plan.outputs.build == 'true'
         env:
@@ -175,6 +184,21 @@ jobs:
                    --title "Latest virus scan" --notes "$notes"
             gh release edit virustotal --repo "$GITHUB_REPOSITORY" --notes "$notes"
             gh release upload virustotal release-out/virustotal.json --repo "$GITHUB_REPOSITORY" --clobber
+            # The badge image, committed under the owner's name like every commit here.
+            python site/.github/scripts/badge.py "${{ steps.trust.outputs.flagged }}" "${{ steps.trust.outputs.total }}" site/docs/badges/virustotal.svg
+            (
+              cd site
+              git config user.name 'Gagandeep Gill'
+              git config user.email '8551508+gagandeepgill@users.noreply.github.com'
+              git add docs/badges/virustotal.svg
+              git diff --cached --quiet && exit 0
+              git commit -q -m "VirusTotal result for $1"
+              for attempt in 1 2 3; do
+                git pull -q --rebase && git push -q && exit 0
+                sleep 5
+              done
+              echo "::warning::Could not update the VirusTotal badge."
+            ) || true
           }
           if [[ "${{ steps.plan.outputs.test }}" == true ]]; then
             tag="test-$(git rev-parse --short HEAD)"
