@@ -9,11 +9,10 @@ Look anything up, get directions from where you stand, follow your quests and se
 
 <a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest/download/MaplePal-Field-Guide-setup.exe"><img alt="Download for Windows" src="https://img.shields.io/badge/Download_for_Windows-setup.exe-f0a35e?style=for-the-badge&logo=windows&logoColor=white"></a>
 
-<a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest"><img alt="Latest version" src="https://img.shields.io/github/v/release/gagandeepgill/maple-pal-public?label=latest&color=3b5b8f"></a>
 <img alt="Windows 10 and 11, 64-bit" src="https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-3b5b8f">
 <img alt="Updates itself" src="https://img.shields.io/badge/updates-automatic-4caf7a">
 <img alt="Beta" src="https://img.shields.io/badge/status-beta-e0a030">
-<a href="https://github.com/gagandeepgill/maple-pal-public/releases/tag/virustotal"><img alt="VirusTotal scan of the newest installer" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fgithub.com%2Fgagandeepgill%2Fmaple-pal-public%2Freleases%2Fdownload%2Fvirustotal%2Fvirustotal.json&logo=virustotal&logoColor=white"></a>
+<a href="https://github.com/gagandeepgill/maple-pal-public/releases/tag/virustotal"><img alt="VirusTotal: every installer is scanned" src="https://img.shields.io/badge/VirusTotal-scanned_every_release-2e7d32?logo=virustotal&logoColor=white"></a>
 
 🔒 **Every download ships a SHA-256 checksum and a signed GitHub build attestation** you can verify, and a separate window that never touches the game. <a href="#is-it-safe">Is it safe? →</a>
 
