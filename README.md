@@ -57,8 +57,9 @@ Hover over an item in MapleStory and its price shows up in the widget: the last 
 
 1. **[Download `MaplePal-Field-Guide-setup.exe`](https://github.com/gagandeepgill/maple-pal-public/releases/latest/download/MaplePal-Field-Guide-setup.exe)** and run it. It installs for your Windows user only, with no admin prompt, and adds a Start menu entry.
 2. If Windows says **"Windows protected your PC"**, click **More info**, then **Run anyway**. This shows up because the installer isn't code-signed yet.
-3. Open **MaplePal Field Guide** from the Start menu. On the first start, click **Import from another PC** to load a data pack, or **Download catalog**.
-4. If MapleStory isn't installed in `C:\Nexon\Library\maplestorycw`, open **Window settings → Open with MapleStory → Change** and choose its `MapleStory.exe`.
+3. Open **MaplePal Field Guide** from the Start menu. On the first start, click **Download catalog**. The first download takes about 15 to 20 minutes.
+4. In MapleStory's settings, set **UI Size** to **Ideal Ratio**. That's the size the screen readers work best with today. Support for the other UI sizes is still in progress.
+5. If MapleStory isn't installed in `C:\Nexon\Library\maplestorycw`, open **Window settings → Open with MapleStory → Change** and choose its `MapleStory.exe`.
 
 **Requirements:** 64-bit Windows 11, or Windows 10 version 2004 or later. If the PC doesn't have Microsoft Edge WebView2, the installer downloads it.
 
@@ -128,7 +129,7 @@ Not directly. It's a Windows app, so on a Mac it needs a Windows virtual machine
 <details>
 <summary><b>The Training tracker or Prices show nothing.</b></summary>
 
-Keep the MapleStory window visible, not minimised, with the EXP bar showing. Training reads the HUD, and Prices reads the item you're hovering over.
+Keep the MapleStory window visible, not minimised, with the EXP bar showing. Training reads the HUD, and Prices reads the item you're hovering over. Readings are most reliable with MapleStory's **UI Size** set to **Ideal Ratio**. The other UI sizes are still in progress.
 </details>
 
 <details>
