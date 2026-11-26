@@ -86,20 +86,46 @@ jobs:
 
       - name: Fast tests
         if: steps.plan.outputs.build == 'true'
+        env:
+          PYTHONUNBUFFERED: '1'  # piped output: keep test prints in order with the summary
         run: |
           python -m pip install --quiet --disable-pip-version-check -r requirements-widget.txt
-          python -m unittest discover -s tests -q 2>&1 | tail -n 3
+          python -m unittest discover -s tests -q 2>&1 | tail -n 30
           npm --prefix desktop ci --no-audit --no-fund --loglevel=error
           npm --prefix desktop test -- --reporter=dot 2>&1 | tail -n 4
 
-      - name: Build the installer
+      # The full setup carries the game-data pack (about 140 MB): the data repo's copy in its
+      # "game-data" release (game-data.yml), else MaplePal's route. It is kept between
+      # runs and downloaded again only when the pack changes.
+      - name: Game-data pack key
+        id: pack
+        if: steps.plan.outputs.build == 'true' && vars.FIELD_GUIDE_CATALOG_URL != ''
+        run: |
+          data="${{ vars.FIELD_GUIDE_DATA_REPO }}"
+          id=$([[ -n $data ]] && curl -fsSL "https://github.com/$data/releases/download/game-data/game-data.json" 2>/dev/null | jq -r '.sha256 // empty' || true)
+          if [[ -z $id ]]; then
+            url="${{ vars.FIELD_GUIDE_CATALOG_URL }}"
+            id=$(curl -fsSI --retry 5 --retry-all-errors "${url%/catalog.json.gz}/game-data.zip" | tr -d '\r' | sed -n 's/^[Ee][Tt][Aa][Gg]: *//p' | tail -n 1)
+          fi
+          echo "key=game-data-$(printf %s "$id" | sha256sum | cut -c1-16)" >>"$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        if: steps.pack.outputs.key
+        with:
+          path: ${{ runner.temp }}/maplepal-game-data
+          key: ${{ steps.pack.outputs.key }}
+          restore-keys: game-data-
+
+      - name: Build the installers
         if: steps.plan.outputs.build == 'true'
         env:
+          FIELD_GUIDE_GAME_DATA_CACHE: ${{ runner.temp }}/maplepal-game-data
           FIELD_GUIDE_UPDATE_REPO: ${{ github.repository }}
           FIELD_GUIDE_PREVIOUS_COMMIT: ${{ steps.plan.outputs.previous }}
           FIELD_GUIDE_ALLOW_TEST: ${{ steps.plan.outputs.test == 'true' && '1' || '0' }}
           # MaplePal's catalog route: every install downloads its library and game data there.
           FIELD_GUIDE_CATALOG_URL: ${{ vars.FIELD_GUIDE_CATALOG_URL }}
+          # The data repo whose "game-data" release installs download from (game-data.yml).
+          FIELD_GUIDE_DATA_REPO: ${{ vars.FIELD_GUIDE_DATA_REPO }}
           TAURI_UPDATER_PUBKEY: ${{ vars.TAURI_UPDATER_PUBKEY }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
@@ -116,7 +142,7 @@ jobs:
         run: |
           cd release-out
           sha=$(sha256sum MaplePal-Field-Guide-setup.exe | cut -d' ' -f1)
-          echo "$sha  MaplePal-Field-Guide-setup.exe" > SHA256SUMS.txt
+          sha256sum MaplePal-Field-Guide-setup.exe MaplePal-Field-Guide-update.exe > SHA256SUMS.txt
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
           scan=""
           if [[ -n "$VT_KEY" ]]; then
@@ -163,7 +189,9 @@ jobs:
       - uses: actions/attest-build-provenance@v2
         if: steps.plan.outputs.build == 'true'
         with:
-          subject-path: release-out/MaplePal-Field-Guide-setup.exe
+          subject-path: |
+            release-out/MaplePal-Field-Guide-setup.exe
+            release-out/MaplePal-Field-Guide-update.exe
       # This repository itself, to redraw the README's VirusTotal badge.
       - uses: actions/checkout@v4
         if: steps.plan.outputs.build == 'true'
@@ -175,7 +203,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           version=$(cat release-out/version.txt)
-          files=(release-out/MaplePal-Field-Guide-setup.exe release-out/MaplePal-Field-Guide-setup.exe.sig release-out/latest.json release-out/SHA256SUMS.txt)
+          # setup.exe (the download button) carries the game data; update.exe is what the
+          # in-app updater fetches (latest.json), without it.
+          files=(release-out/MaplePal-Field-Guide-setup.exe release-out/MaplePal-Field-Guide-update.exe release-out/latest.json release-out/SHA256SUMS.txt)
+          [[ -f release-out/MaplePal-Field-Guide-update.exe.sig ]] && files+=(release-out/MaplePal-Field-Guide-update.exe.sig)
           # Point the README's VirusTotal badge at the newest installer's scan: each main
           # release, or a test build while there is no main release yet.
           badge() {
@@ -224,6 +255,6 @@ jobs:
           badge "v$version"
           # A main release replaces every test build; remove them so the list stays short.
           gh release list --repo "$GITHUB_REPOSITORY" --limit 100 --json tagName --jq '.[].tagName' \
-            | grep '^test-' | while read -r old; do
+            | { grep '^test-' || true; } | while read -r old; do
               gh release delete "$old" --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes || true
             done
