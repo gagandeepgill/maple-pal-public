@@ -98,6 +98,8 @@ jobs:
           FIELD_GUIDE_UPDATE_REPO: ${{ github.repository }}
           FIELD_GUIDE_PREVIOUS_COMMIT: ${{ steps.plan.outputs.previous }}
           FIELD_GUIDE_ALLOW_TEST: ${{ steps.plan.outputs.test == 'true' && '1' || '0' }}
+          # MaplePal's catalog route: every install downloads its library and game data there.
+          FIELD_GUIDE_CATALOG_URL: ${{ vars.FIELD_GUIDE_CATALOG_URL }}
           TAURI_UPDATER_PUBKEY: ${{ vars.TAURI_UPDATER_PUBKEY }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
