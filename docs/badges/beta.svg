@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="113" height="28" viewBox="0 0 113 28" role="img" aria-label="Status: beta"><title>Status: beta</title>
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a3546"/><stop offset="1" stop-color="#18202c"/></linearGradient>
+<linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+<rect x=".5" y=".5" width="112" height="27" rx="13.5" fill="url(#g)" stroke="#ffbf5e" stroke-opacity=".55"/>
+<rect x="1.5" y="1.5" width="110" height="13.0" rx="12.5" fill="url(#s)"/>
+<g transform="translate(11 7.5)" fill="#ffbf5e"><path d="M4.5 0h4v1h-.7v3.6l4 6.6A1.2 1.2 0 0 1 10.8 13H2.2a1.2 1.2 0 0 1-1-1.8l4-6.6V1h-.7zm1.8 1v3.9L4.6 7.7h3.8L6.7 4.9V1z"/></g>
+<g font-family="Verdana,DejaVu Sans,Geneva,sans-serif" font-size="11" dominant-baseline="central">
+<text x="31" y="14.5" fill="#b9c4d3" textLength="35.0" lengthAdjust="spacingAndGlyphs">Status</text>
+<text x="72.046875" y="14.5" fill="#ffbf5e" font-weight="700" textLength="28.0" lengthAdjust="spacingAndGlyphs">beta</text></g></svg>

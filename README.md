@@ -7,12 +7,12 @@
 **A glass companion window that docks beside MapleStory.**<br>
 Look anything up, get directions from where you stand, follow your quests and see what your training is really earning, without alt-tabbing to a wiki.
 
-<a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest/download/MaplePal-Field-Guide-setup.exe"><img alt="Download for Windows" src="https://img.shields.io/badge/Download_for_Windows-setup.exe-f0a35e?style=for-the-badge&logo=windows&logoColor=white"></a>
+<a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest/download/MaplePal-Field-Guide-setup.exe"><img alt="Download for Windows (setup.exe)" src="docs/badges/download.svg" height="44"></a>
 
-<img alt="Windows 10 and 11, 64-bit" src="https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-3b5b8f">
-<img alt="Updates itself" src="https://img.shields.io/badge/updates-automatic-4caf7a">
-<img alt="Beta" src="https://img.shields.io/badge/status-beta-e0a030">
-<a href="https://github.com/gagandeepgill/maple-pal-public/releases/tag/virustotal"><img alt="VirusTotal: every installer is scanned" src="docs/badges/virustotal.svg"></a>
+<img alt="Windows 10 and 11, 64-bit" src="docs/badges/windows.svg" height="28">
+<img alt="Updates itself" src="docs/badges/updates.svg" height="28">
+<img alt="Beta" src="docs/badges/beta.svg" height="28">
+<a href="https://github.com/gagandeepgill/maple-pal-public/releases/tag/virustotal"><img alt="VirusTotal: every installer is scanned" src="docs/badges/virustotal.svg" height="28"></a>
 
 🔒 **Every download ships a SHA-256 checksum and a signed GitHub build attestation** you can verify, and a separate window that never touches the game. <a href="#is-it-safe">Is it safe? →</a>
 
