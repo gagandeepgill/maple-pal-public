@@ -15,7 +15,8 @@ def badge(flagged, total):
     if total <= 0:
         value, accent = 'scanned every release', '#6fd69a'
     else:
-        value = f'{flagged} / {total} engines flagged'
+        # Clean reads as engines passed: "61 / 61 clean". Otherwise say how many flagged it.
+        value = f'{total} / {total} clean' if flagged == 0 else f'{flagged} of {total} flagged'
         accent = '#6fd69a' if flagged == 0 else '#ffbf5e' if flagged <= 2 else '#ff7a6b'
     label, h, pad, isz = 'VirusTotal', 28, 11, 13
     lw, vw = width(label, REGULAR), width(value, BOLD)
