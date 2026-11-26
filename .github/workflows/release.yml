@@ -49,12 +49,22 @@ jobs:
           fi
           released=$(curl -fsSL "https://github.com/$GITHUB_REPOSITORY/releases/latest/download/latest.json" 2>/dev/null | jq -r '.commit // empty' || true)
           echo "previous=$released" >>"$GITHUB_OUTPUT"
-          if [[ $main == "$released" && "${{ inputs.force }}" != true && "${{ inputs.ref || 'main' }}" == main ]]; then
+          build=true
+          if [[ ! -f tools/release/build-installer.sh ]]; then
+            echo "::notice::This commit has no installer script yet; nothing to build."
+            build=false
+          elif [[ "${{ inputs.force }}" == true || "${{ inputs.ref || 'main' }}" != main ]]; then
+            build=true
+          elif [[ $main == "$released" ]]; then
             echo "Main is already released."
-            echo "build=false" >>"$GITHUB_OUTPUT"
-          else
-            echo "build=true" >>"$GITHUB_OUTPUT"
+            build=false
+          elif [[ -n $released ]] && git cat-file -e "$released^{commit}" 2>/dev/null \
+               && ! git diff --name-only "$released" HEAD | grep -qE '^(desktop/|vision/|exp_tracker/|quest/|niadb/|navigation/|requirements-widget\.txt|tools/release/)'; then
+            # Only tests, tools or docs changed: players would download the same widget.
+            echo "Nothing players run has changed since the last release."
+            build=false
           fi
+          echo "build=$build" >>"$GITHUB_OUTPUT"
 
       - uses: actions/setup-python@v5
         if: steps.plan.outputs.build == 'true'
@@ -182,3 +192,8 @@ jobs:
           gh release create "v$version" --repo "$GITHUB_REPOSITORY" --target "${{ github.sha }}" \
             --title "MaplePal Field Guide v$version" --notes-file release-out/notes.md --latest "${files[@]}"
           badge "v$version"
+          # A main release replaces every test build; remove them so the list stays short.
+          gh release list --repo "$GITHUB_REPOSITORY" --limit 100 --json tagName --jq '.[].tagName' \
+            | grep '^test-' | while read -r old; do
+              gh release delete "$old" --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes || true
+            done
