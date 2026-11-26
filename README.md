@@ -12,8 +12,11 @@ Look anything up, get directions from where you stand, follow your quests and se
 <a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest"><img alt="Latest version" src="https://img.shields.io/github/v/release/gagandeepgill/maple-pal-public?label=latest&color=3b5b8f"></a>
 <img alt="Windows 10 and 11, 64-bit" src="https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-3b5b8f">
 <img alt="Updates itself" src="https://img.shields.io/badge/updates-automatic-4caf7a">
+<img alt="Beta" src="https://img.shields.io/badge/status-beta-e0a030">
 
 🔒 **Every download ships a SHA-256 checksum and a signed GitHub build attestation** you can verify, and a separate window that never touches the game. <a href="#is-it-safe">Is it safe? →</a>
+
+🧪 **This is a beta.** The Field Guide is new and changes often, so some things may not work yet or may break after a game patch. If something looks off, <a href="https://github.com/gagandeepgill/maple-pal-public/issues/new/choose">let us know</a>. Every report helps.
 
 <br><br>
 
@@ -90,6 +93,12 @@ Hover over an item in MapleStory and its price shows up in the widget: the last 
 **Why does Windows warn about it?** SmartScreen shows "Windows protected your PC" for any new app that hasn't been code-signed and downloaded by many people yet. It isn't a virus detection. Click **More info**, then **Run anyway**.
 
 ## FAQ
+
+<details>
+<summary><b>Something isn't working. How do I report it?</b></summary>
+
+Thanks for trying the beta! [Open a report](https://github.com/gagandeepgill/maple-pal-public/issues/new/choose) and say what you were doing, what you expected and what happened instead. Add the version from the bottom of the widget and a screenshot if you can. Please don't include your Nexon login or anything else private.
+</details>
 
 <details>
 <summary><b>How does it update?</b></summary>

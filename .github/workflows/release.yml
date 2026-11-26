@@ -115,6 +115,8 @@ jobs:
           fi
           {
             echo
+            echo '> This is a beta, so some things may not work yet. If something looks off, [let us know](https://github.com/'"$GITHUB_REPOSITORY"'/issues/new/choose).'
+            echo
             echo '### Check this download'
             echo
             echo "- SHA-256: \`$sha\`"

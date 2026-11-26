@@ -1,0 +1,35 @@
+name: Something isn't working
+description: Tell us what went wrong in the Field Guide beta.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for trying the beta! A few details help a lot. Please leave out your Nexon login and anything else private.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you were doing, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Field Guide version
+      description: Shown at the bottom of the widget, for example v0.1.245.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part?
+      options: [Install or update, Field guide or search, Directions, Quest guide, Training tracker, Prices, Docking or window, Something else]
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version and screen size
+      description: For example Windows 11, 1920x1080.
+  - type: textarea
+    id: shots
+    attributes:
+      label: Screenshots
+      description: Optional. Drag images here.
