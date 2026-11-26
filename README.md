@@ -46,7 +46,7 @@ Start tracking and the widget reads your EXP bar: EXP per minute, your best minu
 <p align="center"><img src="docs/training.png" alt="Live training session" width="300">&nbsp;&nbsp;<img src="docs/visit.png" alt="A saved visit in History" width="300"></p>
 
 ### <img src="docs/icons/prices.png" width="36" height="36" align="center" alt=""> Prices
-Hover over an item in MapleStory and its price shows up in the widget: the last sale, median sale and median asking price, recent sales by channel, and how the price moved this week. Prices come from Cozy Market and MaplePal.
+Hover over an item in MapleStory and its price shows up in the widget: the last sale, median sale and median asking price, recent sales by channel, and how the price moved this week. Prices come from Cozy Market and a shared price list.
 
 ### <img src="docs/icons/logo.png" width="36" height="36" align="center" alt=""> Made to sit beside the game
 - **Dock** snaps it to the edge of the screen. **Focus** brings it forward when you return to the game, and MapleStory keeps your keyboard.
@@ -71,7 +71,7 @@ Hover over an item in MapleStory and its price shows up in the widget: the last 
 
 - Captures the MapleStory window, the way OBS or a screenshot tool does, to read the minimap, EXP bar and the item you hover over
 - Reads the game's installed files for maps, quests and items
-- Connects to GitHub for updates, and to Cozy Market and MaplePal for prices
+- Connects to GitHub for updates, to Cozy Market for prices, and to a data server for the item library and shared prices
 - Saves its data in your own user folder
 
 </td><td valign="top">
