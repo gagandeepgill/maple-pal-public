@@ -12,7 +12,7 @@ Look anything up, get directions from where you stand, follow your quests and se
 <img alt="Windows 10 and 11, 64-bit" src="https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-3b5b8f">
 <img alt="Updates itself" src="https://img.shields.io/badge/updates-automatic-4caf7a">
 <img alt="Beta" src="https://img.shields.io/badge/status-beta-e0a030">
-<a href="https://github.com/gagandeepgill/maple-pal-public/releases/tag/virustotal"><img alt="VirusTotal: every installer is scanned" src="https://img.shields.io/badge/VirusTotal-scanned_every_release-2e7d32?logo=virustotal&logoColor=white"></a>
+<a href="https://github.com/gagandeepgill/maple-pal-public/releases/tag/virustotal"><img alt="VirusTotal: every installer is scanned" src="docs/badges/virustotal.svg"></a>
 
 🔒 **Every download ships a SHA-256 checksum and a signed GitHub build attestation** you can verify, and a separate window that never touches the game. <a href="#is-it-safe">Is it safe? →</a>
 
