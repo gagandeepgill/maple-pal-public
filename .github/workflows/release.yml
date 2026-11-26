@@ -113,6 +113,25 @@ jobs:
               && scan="https://www.virustotal.com/gui/file/$sha" \
               || echo "::warning::The VirusTotal upload failed; the release goes out without a scan link."
           fi
+          # The README badge reads virustotal.json (a shields.io endpoint) from the rolling
+          # "virustotal" release. Wait up to 6 minutes for the engines to finish.
+          if [[ -n $scan ]]; then
+            message=scanned color=blue
+            for _ in $(seq 24); do
+              sleep 15
+              stats=$(curl -fsS -H "x-apikey: $VT_KEY" "https://www.virustotal.com/api/v3/files/$sha" 2>/dev/null \
+                | python -c "import json,sys; a=json.load(sys.stdin)['data']['attributes']; s=a['last_analysis_stats']; assert a.get('last_analysis_date') and sum(s.values()) >= 40; print(s['malicious']+s['suspicious'], s['malicious']+s['suspicious']+s['harmless']+s['undetected'])" 2>/dev/null) || continue
+              read -r flagged total <<<"$stats"
+              message="$flagged / $total engines flagged"
+              if [[ $flagged == 0 ]]; then message="clean ($total engines)" color=brightgreen
+              elif (( flagged <= 2 )); then color=yellow
+              else color=red; fi
+              break
+            done
+            printf '{"schemaVersion":1,"label":"VirusTotal","message":"%s","color":"%s"}\n' "$message" "$color" > virustotal.json
+            echo "VirusTotal: $message"
+          fi
+          echo "scan=$scan" >> "$GITHUB_OUTPUT"
           {
             echo
             echo '> This is a beta, so some things may not work yet. If something looks off, [let us know](https://github.com/'"$GITHUB_REPOSITORY"'/issues/new/choose).'
@@ -134,12 +153,24 @@ jobs:
         run: |
           version=$(cat release-out/version.txt)
           files=(release-out/MaplePal-Field-Guide-setup.exe release-out/MaplePal-Field-Guide-setup.exe.sig release-out/latest.json release-out/SHA256SUMS.txt)
+          # Point the README's VirusTotal badge at the newest installer's scan: each main
+          # release, or a test build while there is no main release yet.
+          badge() {
+            [[ -f release-out/virustotal.json ]] || return 0
+            notes="The newest installer, $1, scanned by VirusTotal: ${{ steps.trust.outputs.scan }}"
+            gh release view virustotal --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
+              || gh release create virustotal --repo "$GITHUB_REPOSITORY" --target "${{ github.sha }}" --prerelease \
+                   --title "Latest virus scan" --notes "$notes"
+            gh release edit virustotal --repo "$GITHUB_REPOSITORY" --notes "$notes"
+            gh release upload virustotal release-out/virustotal.json --repo "$GITHUB_REPOSITORY" --clobber
+          }
           if [[ "${{ steps.plan.outputs.test }}" == true ]]; then
             tag="test-$(git rev-parse --short HEAD)"
             gh release delete "$tag" --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes >/dev/null 2>&1 || true
             gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target "${{ github.sha }}" --prerelease \
               --title "Test build v$version" --notes-file release-out/notes.md "${files[@]}"
             echo "Download: https://github.com/$GITHUB_REPOSITORY/releases/download/$tag/MaplePal-Field-Guide-setup.exe"
+            if [[ -z "${{ steps.plan.outputs.previous }}" ]]; then badge "test build v$version"; fi
             exit 0
           fi
           if gh release view "v$version" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
@@ -148,3 +179,4 @@ jobs:
           fi
           gh release create "v$version" --repo "$GITHUB_REPOSITORY" --target "${{ github.sha }}" \
             --title "MaplePal Field Guide v$version" --notes-file release-out/notes.md --latest "${files[@]}"
+          badge "v$version"
