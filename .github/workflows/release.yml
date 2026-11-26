@@ -114,14 +114,16 @@ jobs:
               || echo "::warning::The VirusTotal upload failed; the release goes out without a scan link."
           fi
           # The README badge reads virustotal.json (a shields.io endpoint) from the rolling
-          # "virustotal" release. Wait up to 6 minutes for the engines to finish.
+          # "virustotal" release. Wait up to 8 minutes for the engines to finish.
           if [[ -n $scan ]]; then
-            message=scanned color=blue
-            for _ in $(seq 24); do
+            message=scanned color=blue last=""
+            for _ in $(seq 32); do
               sleep 15
               stats=$(curl -fsS -H "x-apikey: $VT_KEY" "https://www.virustotal.com/api/v3/files/$sha" 2>/dev/null \
                 | python -c "import json,sys; a=json.load(sys.stdin)['data']['attributes']; s=a['last_analysis_stats']; assert a.get('last_analysis_date') and sum(s.values()) >= 40; print(s['malicious']+s['suspicious'], s['malicious']+s['suspicious']+s['harmless']+s['undetected'])" 2>/dev/null) || continue
               read -r flagged total <<<"$stats"
+              # Engines report over a few minutes; take the result once two checks agree.
+              [[ $stats == "${last:-}" ]] || { last=$stats; continue; }
               message="$flagged / $total engines flagged"
               if [[ $flagged == 0 ]]; then message="clean ($total engines)" color=brightgreen
               elif (( flagged <= 2 )); then color=yellow
