@@ -1,0 +1,47 @@
+name: Authorship
+
+# House rule: every commit in this repository is authored and committed by the owner, and
+# commit messages carry no co-author or tool attribution trailers.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  commits:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Check every commit
+        env:
+          OWNER_NAME: Gagandeep Gill
+          OWNER_EMAIL: 8551508+gagandeepgill@users.noreply.github.com
+        run: |
+          bad=0
+          while IFS=$'\x1f' read -r sha an ae cn ce; do
+            if [[ $an != "$OWNER_NAME" || $ae != "$OWNER_EMAIL" || $cn != "$OWNER_NAME" || $ce != "$OWNER_EMAIL" ]]; then
+              echo "::error::$sha is by $an <$ae>, committed by $cn <$ce>; expected $OWNER_NAME <$OWNER_EMAIL> for both."
+              bad=1
+            fi
+            # Attribution trailers: Co-authored-by, Signed-off-by from anyone else, "Generated with"
+            # lines, and any *-Session: trailer.
+            lines=$(git log -1 --format=%B "$sha" | grep -inE '^(co-authored-by|signed-off-by):|generated (with|by) |^[a-z-]*-session:' \
+              | grep -viF "Signed-off-by: $OWNER_NAME <$OWNER_EMAIL>" || true)
+            if [[ -n $lines ]]; then
+              echo "::error::$sha has an attribution line in its message: $lines"
+              bad=1
+            fi
+          done < <(git log --format='%H%x1f%an%x1f%ae%x1f%cn%x1f%ce' HEAD)
+          if [[ $bad == 1 ]]; then
+            echo "Rewrite these commits with the owner as author and committer, and drop the trailers."
+            exit 1
+          fi
+          echo "All $(git rev-list --count HEAD) commits are the owner's, with no attribution trailers."
