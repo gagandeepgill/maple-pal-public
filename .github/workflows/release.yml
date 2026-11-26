@@ -192,9 +192,11 @@ jobs:
               git config user.email '8551508+gagandeepgill@users.noreply.github.com'
               # The badge links straight to this installer's scan.
               sed -i -E 's#<a href="[^"]*"><img alt="VirusTotal#<a href="${{ steps.trust.outputs.scan }}"><img alt="VirusTotal#' README.md
-              git add docs/badges/virustotal.svg README.md
+              # A real release also redraws the "Latest" version badge.
+              [[ "${{ steps.plan.outputs.test }}" == true ]] || python .github/scripts/badge.py version "$1" docs/badges/version.svg
+              git add docs/badges/virustotal.svg docs/badges/version.svg README.md
               git diff --cached --quiet && exit 0
-              git commit -q -m "VirusTotal result for $1"
+              git commit -q -m "Badges for $1"
               for attempt in 1 2 3; do
                 git pull -q --rebase && git push -q && exit 0
                 sleep 5

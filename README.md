@@ -9,6 +9,7 @@ Look anything up, get directions from where you stand, follow your quests and se
 
 <a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest/download/MaplePal-Field-Guide-setup.exe"><img alt="Download for Windows (setup.exe)" src="docs/badges/download.svg" height="44"></a>
 
+<a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest"><img alt="Latest release" src="docs/badges/version.svg" height="28"></a>
 <img alt="Windows 10 and 11, 64-bit" src="docs/badges/windows.svg" height="28">
 <img alt="Updates itself" src="docs/badges/updates.svg" height="28">
 <img alt="Beta" src="docs/badges/beta.svg" height="28">
@@ -133,7 +134,7 @@ Keep the MapleStory window visible, not minimised, with the EXP bar showing. Tra
 <details>
 <summary><b>How do I uninstall it?</b></summary>
 
-First turn off **Open with MapleStory** so its sign-in watcher is removed too. Then uninstall **MaplePal Field Guide** from **Settings → Apps**. Your data stays unless you tick **Delete the application data**.
+Uninstall **MaplePal Field Guide** from **Settings → Apps**. It also removes the **Open with MapleStory** sign-in watcher. Your data stays unless you tick **Delete the application data**.
 </details>
 
 ---

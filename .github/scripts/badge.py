@@ -1,4 +1,5 @@
-"""Draw the README's VirusTotal badge with the scan result: badge.py <flagged> <total> <out.svg>.
+"""Draw the README's live badges: badge.py <flagged> <total> <out.svg> for the VirusTotal
+result, or badge.py version <tag> <out.svg> for the latest release.
 Same glass style as the other badges in docs/badges. No third-party packages."""
 import sys
 
@@ -11,6 +12,9 @@ def width(text, table):
     return sum(table.get(c, 7.0) for c in text)
 
 
+TAG = '<path d="M1 1h5.2L12 6.8 7.3 11.5 1.5 5.7zM3.6 3.6a1 1 0 1 0 .01 0z" fill-rule="evenodd"/>'
+
+
 def badge(flagged, total):
     if total <= 0:
         value, accent = 'scanned every release', '#6fd69a'
@@ -18,7 +22,11 @@ def badge(flagged, total):
         # Clean reads as engines passed: "61 / 61 clean". Otherwise say how many flagged it.
         value = f'{total} / {total} clean' if flagged == 0 else f'{flagged} of {total} flagged'
         accent = '#6fd69a' if flagged == 0 else '#ffbf5e' if flagged <= 2 else '#ff7a6b'
-    label, h, pad, isz = 'VirusTotal', 28, 11, 13
+    return draw('VirusTotal', value, accent, SHIELD)
+
+
+def draw(label, value, accent, icon):
+    h, pad, isz = 28, 11, 13
     lw, vw = width(label, REGULAR), width(value, BOLD)
     x_label = pad + isz + 7
     x_value = x_label + lw + 6
@@ -28,7 +36,7 @@ def badge(flagged, total):
 <linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
 <rect x=".5" y=".5" width="{w-1}" height="{h-1}" rx="{(h-1)/2}" fill="url(#g)" stroke="{accent}" stroke-opacity=".55"/>
 <rect x="1.5" y="1.5" width="{w-3}" height="{h/2-1}" rx="{(h-3)/2}" fill="url(#s)"/>
-<g transform="translate({pad} {(h-isz)/2})" fill="{accent}">{SHIELD}</g>
+<g transform="translate({pad} {(h-isz)/2})" fill="{accent}">{icon}</g>
 <g font-family="Verdana,DejaVu Sans,Geneva,sans-serif" font-size="11" dominant-baseline="central">
 <text x="{x_label}" y="{h/2+.5}" fill="#b9c4d3" textLength="{lw:.1f}" lengthAdjust="spacingAndGlyphs">{label}</text>
 <text x="{x_value}" y="{h/2+.5}" fill="{accent}" font-weight="700" textLength="{vw:.1f}" lengthAdjust="spacingAndGlyphs">{value}</text></g></svg>
@@ -36,6 +44,9 @@ def badge(flagged, total):
 
 
 if __name__ == '__main__':
-    flagged, total, out = int(sys.argv[1]), int(sys.argv[2]), sys.argv[3]
-    with open(out, 'w', encoding='utf-8', newline='\n') as file:
-        file.write(badge(flagged, total))
+    if sys.argv[1] == 'version':
+        svg = draw('Latest', sys.argv[2], '#8fc4ff', TAG)
+    else:
+        svg = badge(int(sys.argv[1]), int(sys.argv[2]))
+    with open(sys.argv[3], 'w', encoding='utf-8', newline='\n') as file:
+        file.write(svg)
