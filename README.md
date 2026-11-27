@@ -5,7 +5,7 @@
 # MaplePal Field Guide
 
 **A glass companion window that docks beside MapleStory.**<br>
-Look anything up, get directions from where you stand, follow your quests and see what your training is really earning, without alt-tabbing to a wiki.
+Look anything up, get directions from where you stand, follow your quests, find where to train and see what your training is really earning, without alt-tabbing to a wiki.
 
 <a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest/download/MaplePal-Field-Guide-setup.exe"><img alt="Download for Windows (setup.exe)" src="docs/badges/download.svg" height="44"></a>
 
@@ -28,60 +28,69 @@ Look anything up, get directions from where you stand, follow your quests and se
 ## What it does
 
 ### <img src="docs/icons/field-guide.png" width="36" height="36" align="center" alt=""> Field guide
-Search one catalog of mobs, maps, quests, items, NPCs, recipes, skills, shops, furniture and appearances. Press <kbd>Ctrl</kbd> <kbd>K</kbd> to search, then open a record to see its stats, drops, spawn maps and where to find it. Everything is local, so results show up as you type.
+Search one catalog of mobs, maps, quests, items, NPCs, recipes, skills, shops, furniture and appearances. Press <kbd>Ctrl</kbd> <kbd>K</kbd> to search, then open a record to see its stats, drops, spawn maps and where to find it. Item pages also show the NPC sell price and which shops sell scarce potions. Everything is on your PC, so results show up as you type, and the library refreshes itself after a game patch.
 
 ### <img src="docs/icons/directions.png" width="36" height="36" align="center" alt=""> Directions from where you stand
-Pick a destination and the guide reads your minimap to find out where you are. It then draws the route on the real map art: which portal to take, when to climb, and when a taxi or town scroll is quicker.
+Pick a destination, or one of the main towns and your recent trips, and the guide reads your minimap to find out where you are. It then draws the route on the real map art: which portal to take, when to climb, and when a taxi or town scroll is quicker. If your minimap is minimised or covered, it tells you so.
 
 ### <img src="docs/icons/quests.png" width="36" height="36" align="center" alt=""> Quest guide
-<img src="docs/quests.png" alt="Quest guide card with accept, collect and turn-in steps" width="420" align="right">
+<img src="docs/quests.png" alt="Quest guide card with accept, collect and turn-in steps, and the Quest accepted notice" width="420" align="right">
 
-Each quest is laid out as **Accept → Collect → Turn in**, with the map, the monster and how far away it is. The guide reads your quest log and Etc inventory to know which step you're on. **Plan all quests in one route** chains a whole questline into one trip.
+Each quest is laid out as **Accept → Collect → Turn in**, with the map, the monster and how far away it is. The guide reads your quest log and Etc inventory to know which step you're on. When you accept a quest at an NPC, a small **Quest accepted** notice shows its first step and fades after a few seconds. Click **Guide** to open its quest guide.
 
 <br clear="right">
 
 ### <img src="docs/icons/training.png" width="36" height="36" align="center" alt=""> Training tracker
-Start tracking and the widget reads your EXP bar: EXP per minute, your best minute, time to next level, and how this visit compares with your average. It also counts mesos and drops, the potions you used and their cost, and your kills (yours and your party's), and shows your net profit. It can start by itself once you're hunting. Every visit is saved to **History** so you can compare maps.
+Start tracking and the widget reads your EXP bar: EXP per minute, your best minute, time to next level, and how this visit compares with your average. It also counts mesos and drops, the potions you used and their cost, and your kills (yours and your party's), and shows your net profit. It starts by itself once you're hunting, and reminds you when your inventory is full. Every visit is saved to **History**, grouped by day with that day's EXP.
 
-<p align="center"><img src="docs/training.png" alt="Live training session" width="300">&nbsp;&nbsp;<img src="docs/visit.png" alt="A saved visit in History" width="300"></p>
+**Where to train** suggests maps for your level and shows your own measured pace on maps you've trained on. Save your build (**I'm wearing this** on an equip's page fills it in). Thieves using Lucky Seven also get the maps ranked by estimated EXP per minute for that build, and more classes are on the way.
+
+<p align="center"><img src="docs/where-to-train.png" alt="Where to train, ranked for a saved build" width="300">&nbsp;&nbsp;<img src="docs/history.png" alt="Training History grouped by day" width="300"></p>
 
 ### <img src="docs/icons/prices.png" width="36" height="36" align="center" alt=""> Prices
-Hover over an item in MapleStory and its price shows up in the widget: the last sale, median sale and median asking price, recent sales by channel, and how the price moved this week. Prices come from Cozy Market and a shared price list.
+<img src="docs/price-watch.png" alt="Watched items with price targets" width="300" align="right">
+
+Hover over an item in MapleStory and its price shows up in the widget: the last sale, median sale and median asking price, recent sales by channel, and how the price moved this week. Turn on **Watch price** on an item page, set a target, and the Prices tab tells you when it's reached. Prices come from Cozy Market and a shared price list.
+
+<br clear="right">
 
 ### <img src="docs/icons/logo.png" width="36" height="36" align="center" alt=""> Made to sit beside the game
-- **Dock** snaps it to the edge of the screen. **Focus** brings it forward when you return to the game, and MapleStory keeps your keyboard.
+- **Dock** snaps it to the edge of the screen. When the game is full screen, it docks on your second monitor. **Focus** brings it forward when you return to the game, and MapleStory keeps your keyboard.
 - **Open with MapleStory** starts the widget when the game comes to the front.
+- Updates install in the background without a window over the game, and **What's new** lists what changed in each one.
 - It reads only what the game already shows on screen and its installed files. It never changes the game or its files.
 
 ## Install
 
 1. **[Download `MaplePal-Field-Guide-setup.exe`](https://github.com/gagandeepgill/maple-pal-public/releases/latest/download/MaplePal-Field-Guide-setup.exe)** and run it. It installs for your Windows user only, with no admin prompt, and adds a Start menu entry.
 2. If Windows says **"Windows protected your PC"**, click **More info**, then **Run anyway**. This shows up because the installer isn't code-signed yet.
-3. Open **MaplePal Field Guide** from the Start menu. On the first start, click **Download catalog**. The first download takes about 15 to 20 minutes.
-4. In MapleStory's settings, set **UI Size** to **Ideal Ratio**. That's the size the screen readers work best with today. Support for the other UI sizes is still in progress.
-5. If MapleStory isn't installed in `C:\Nexon\Library\maplestorycw`, open **Window settings → Open with MapleStory → Change** and choose its `MapleStory.exe`.
+3. Open **MaplePal Field Guide** from the Start menu. The installer carries the whole library, so it sets itself up on the first start with nothing to download, even offline.
+4. Play at any **UI Size**. The screen readers work with all of them, so keep the one you like.
+5. If MapleStory isn't installed in `C:\Nexon\Library\maplestorycw`, for example if you play through Steam, open **Window settings → Open with MapleStory → Change** and choose its `MapleStory.exe`.
 
 **Requirements:** 64-bit Windows 11, or Windows 10 version 2004 or later. If the PC doesn't have Microsoft Edge WebView2, the installer downloads it.
+
+The release page also lists `MaplePal-Field-Guide-update.exe`. That's the smaller file the widget uses to update itself, without the library, so always install from `setup.exe`.
 
 ## Is it safe?
 
 <table>
 <tr><th>✅ What it does</th><th>🚫 What it never does</th></tr>
 <tr><td valign="top">
-
-- Captures the MapleStory window, the way OBS or a screenshot tool does, to read the minimap, EXP bar and the item you hover over
-- Reads the game's installed files for maps, quests and items
-- Connects to GitHub for updates, to Cozy Market for prices, and to a data server for the item library and shared prices
-- Saves its data in your own user folder
-
+<ul>
+<li>Captures the MapleStory window, the way OBS or a screenshot tool does, to read the minimap, EXP bar and the item you hover over</li>
+<li>Reads the game's installed files for maps, quests and items</li>
+<li>Connects to GitHub for updates and new game data, to Cozy Market for prices, and to a data server for shared prices (and for the library, if GitHub can't be reached)</li>
+<li>Saves its data in your own user folder</li>
+</ul>
 </td><td valign="top">
-
-- Draw on top of the game or hook into it — it's a separate window you dock beside MapleStory, **not an overlay**
-- Read or change the game's memory, or inject anything into the game
-- Press keys or click for you (no botting or macros)
-- Ask for your Nexon or MapleStory login
-- Send your quests, Training history or settings anywhere
-
+<ul>
+<li>Draw on top of the game or hook into it — it's a separate window you dock beside MapleStory, <b>not an overlay</b></li>
+<li>Read or change the game's memory, or inject anything into the game</li>
+<li>Press keys or click for you (no botting or macros)</li>
+<li>Ask for your Nexon or MapleStory login</li>
+<li>Send your quests, Training history or settings anywhere</li>
+</ul>
 </td></tr>
 </table>
 
@@ -105,7 +114,7 @@ Thanks for trying the beta! [Open a report](https://github.com/gagandeepgill/map
 <details>
 <summary><b>How does it update?</b></summary>
 
-It checks for a new version every 30 minutes and downloads it in the background. The update installs when you click **Restart to update**, when you close the widget, or after 10 idle minutes when nothing is being tracked. A small progress bar shows for about 20 seconds. Every update is checked against a signature before it installs.
+It checks for a new version every 30 minutes and downloads it in the background. The update installs when you click **Restart to update**, when you close the widget, or after 10 idle minutes when nothing is being tracked. Updates never show a window over the game, and **What's new** lists the changes afterwards. Every update is checked against a signature before it installs. After a game patch, the library updates itself too.
 </details>
 
 <details>
@@ -129,7 +138,7 @@ Not directly. It's a Windows app, so on a Mac it needs a Windows virtual machine
 <details>
 <summary><b>The Training tracker or Prices show nothing.</b></summary>
 
-Keep the MapleStory window visible, not minimised, with the EXP bar showing. Training reads the HUD, and Prices reads the item you're hovering over. Readings are most reliable with MapleStory's **UI Size** set to **Ideal Ratio**. The other UI sizes are still in progress.
+Keep the MapleStory window visible, not minimised, with the EXP bar showing. Training reads the HUD, and Prices reads the item you're hovering over. If you play through Steam or installed the game outside `C:\Nexon\Library`, choose its `MapleStory.exe` in **Window settings → Open with MapleStory → Change**.
 </details>
 
 <details>
