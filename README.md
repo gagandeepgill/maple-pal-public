@@ -13,7 +13,7 @@ Look anything up, get directions from where you stand, follow your quests, find 
 <img alt="Windows 10 and 11, 64-bit" src="docs/badges/windows.svg" height="28">
 <img alt="Updates itself" src="docs/badges/updates.svg" height="28">
 <img alt="Beta" src="docs/badges/beta.svg" height="28">
-<a href="https://www.virustotal.com/gui/file/b3c03bb1e641bdbef7333d42cf3cd943bf1547d7f3688e99e8ef1f24a5747981"><img alt="VirusTotal: every installer is scanned" src="docs/badges/virustotal.svg" height="28"></a>
+<a href="https://www.virustotal.com/gui/file/c28e676789d064f951fe0b0813b8392a9b25318e24e40155eaa07187668f2a30"><img alt="VirusTotal: every installer is scanned" src="docs/badges/virustotal.svg" height="28"></a>
 
 🔒 **Every download ships a SHA-256 checksum and a signed GitHub build attestation** you can verify, and a separate window that never touches the game. <a href="#is-it-safe">Is it safe? →</a>
 
