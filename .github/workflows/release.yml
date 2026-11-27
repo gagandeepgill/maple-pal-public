@@ -44,7 +44,7 @@ jobs:
         shell: bash
     steps:
       # A read-only deploy key on the private repo; nothing else of it is reachable from here.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: ${{ vars.SOURCE_REPO }}
           ssh-key: ${{ secrets.SOURCE_DEPLOY_KEY }}
@@ -78,12 +78,12 @@ jobs:
           fi
           echo "build=$build" >>"$GITHUB_OUTPUT"
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         if: steps.plan.outputs.build == 'true'
         with:
           python-version: '3.13'
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         if: steps.plan.outputs.build == 'true'
         with:
           node-version: '24'
@@ -120,7 +120,7 @@ jobs:
             id=$(curl -fsSI --retry 5 --retry-all-errors "${url%/catalog.json.gz}/game-data.zip" | tr -d '\r' | sed -n 's/^[Ee][Tt][Aa][Gg]: *//p' | tail -n 1)
           fi
           echo "key=game-data-$(printf %s "$id" | sha256sum | cut -c1-16)" >>"$GITHUB_OUTPUT"
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         if: steps.pack.outputs.key
         with:
           path: ${{ runner.temp }}/maplepal-game-data
@@ -198,14 +198,14 @@ jobs:
             echo '- Built by this repository'"'"'s public GitHub Actions workflow, with a signed build attestation: run `gh attestation verify MaplePal-Field-Guide-setup.exe --repo '"$GITHUB_REPOSITORY"'`'
             if [[ -n "$scan" ]]; then echo "- [VirusTotal scan]($scan)"; fi
           } >> notes.md
-      - uses: actions/attest-build-provenance@v2
+      - uses: actions/attest-build-provenance@v4
         if: steps.plan.outputs.build == 'true'
         with:
           subject-path: |
             release-out/MaplePal-Field-Guide-setup.exe
             release-out/MaplePal-Field-Guide-update.exe
       # This repository itself, to redraw the README's VirusTotal badge.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: steps.plan.outputs.build == 'true'
         with:
           path: site
