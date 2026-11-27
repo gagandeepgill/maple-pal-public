@@ -219,6 +219,9 @@ jobs:
           # in-app updater fetches (latest.json), without it.
           files=(release-out/MaplePal-Field-Guide-setup.exe release-out/MaplePal-Field-Guide-update.exe release-out/latest.json release-out/SHA256SUMS.txt)
           [[ -f release-out/MaplePal-Field-Guide-update.exe.sig ]] && files+=(release-out/MaplePal-Field-Guide-update.exe.sig)
+          # The update as parts (parts.json, its signature and one zip per part): installed
+          # widgets download only the parts that changed.
+          [[ -d release-out/parts ]] && files+=(release-out/parts/*)
           # Point the README's VirusTotal badge at the newest installer's scan: each main
           # release, or a test build while there is no main release yet.
           badge() {
