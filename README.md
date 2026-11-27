@@ -34,9 +34,9 @@ Search one catalog of mobs, maps, quests, items, NPCs, recipes, skills, shops, f
 Pick a destination, or one of the main towns and your recent trips, and the guide reads your minimap to find out where you are. It then draws the route on the real map art: which portal to take, when to climb, and when a taxi or town scroll is quicker. If your minimap is minimised or covered, it tells you so.
 
 ### <img src="docs/icons/quests.png" width="36" height="36" align="center" alt=""> Quest guide
-<img src="docs/quests.png" alt="Quest guide card with accept, collect and turn-in steps, and the Quest accepted notice" width="420" align="right">
+<img src="docs/quests.png" alt="The Quest accepted notice with Undo, and a quest guide card with accept, collect and turn-in steps" width="420" align="right">
 
-Each quest is laid out as **Accept → Collect → Turn in**, with the map, the monster and how far away it is. The guide reads your quest log and Etc inventory to know which step you're on. When you accept a quest at an NPC, a small **Quest accepted** notice shows its first step and fades after a few seconds. Click **Guide** to open its quest guide.
+Each quest is laid out as **Accept → Collect → Turn in**, with the map, the monster and how far away it is. The guide reads your quest log and Etc inventory to know which step you're on. When you accept a quest at an NPC, its guide opens by itself, with a small **Quest accepted** notice and an **Undo** if you'd rather stay where you were. The Quests tab updates live while your quest window is open.
 
 <br clear="right">
 
@@ -50,7 +50,7 @@ Start tracking and the widget reads your EXP bar: EXP per minute, your best minu
 ### <img src="docs/icons/prices.png" width="36" height="36" align="center" alt=""> Prices
 <img src="docs/price-watch.png" alt="Watched items with price targets" width="300" align="right">
 
-Hover over an item in MapleStory and its price shows up in the widget: the last sale, median sale and median asking price, recent sales by channel, and how the price moved this week. Turn on **Watch price** on an item page, set a target, and the Prices tab tells you when it's reached. Prices come from Cozy Market and a shared price list.
+Hover over an item in MapleStory and its MaplePal price shows up in the widget, with how it moved in the last day, recent sales and listings by channel, and how many recorded sales that price is based on. Star an item to watch it, set a target, and the Prices tab tells you when it's reached.
 
 <br clear="right">
 
@@ -66,7 +66,7 @@ Hover over an item in MapleStory and its price shows up in the widget: the last 
 2. If Windows says **"Windows protected your PC"**, click **More info**, then **Run anyway**. This shows up because the installer isn't code-signed yet.
 3. Open **MaplePal Field Guide** from the Start menu. The installer carries the whole library, so it sets itself up on the first start with nothing to download, even offline.
 4. Play at any **UI Size**. The screen readers work with all of them, so keep the one you like.
-5. If MapleStory isn't installed in `C:\Nexon\Library\maplestorycw`, for example if you play through Steam, open **Window settings → Open with MapleStory → Change** and choose its `MapleStory.exe`.
+5. If the widget can't find MapleStory on the first start, it asks you to choose `MapleStory.exe`. Steam installs work too. You can change it later in **Settings** (the gear) **→ Open with MapleStory → Change**.
 
 **Requirements:** 64-bit Windows 11, or Windows 10 version 2004 or later. If the PC doesn't have Microsoft Edge WebView2, the installer downloads it.
 
@@ -80,7 +80,7 @@ The release page also lists `MaplePal-Field-Guide-update.exe`. That's the smalle
 <ul>
 <li>Captures the MapleStory window, the way OBS or a screenshot tool does, to read the minimap, EXP bar and the item you hover over</li>
 <li>Reads the game's installed files for maps, quests and items</li>
-<li>Connects to GitHub for updates and new game data, to Cozy Market for prices, and to a data server for shared prices (and for the library, if GitHub can't be reached)</li>
+<li>Connects to GitHub for updates and new game data, to a market site for the prices of items you hover, and to a data server for shared prices (and for the library, if GitHub can't be reached)</li>
 <li>Saves its data in your own user folder</li>
 </ul>
 </td><td valign="top">
@@ -114,7 +114,7 @@ Thanks for trying the beta! [Open a report](https://github.com/gagandeepgill/map
 <details>
 <summary><b>How does it update?</b></summary>
 
-It checks for a new version every 30 minutes and downloads it in the background. The update installs when you click **Restart to update**, when you close the widget, or after 10 idle minutes when nothing is being tracked. Updates never show a window over the game, and **What's new** lists the changes afterwards. Every update is checked against a signature before it installs. After a game patch, the library updates itself too.
+It checks for a new version every 30 minutes and downloads it in the background. The update installs when you click the update button in the footer, when you close the widget, or during a break when nothing is being tracked. Most updates switch over without the widget closing, and none show a window over the game. **What's new** lists the changes afterwards. Every update is checked against a signature before it installs. After a game patch, the library updates itself too.
 </details>
 
 <details>
@@ -138,7 +138,7 @@ Not directly. It's a Windows app, so on a Mac it needs a Windows virtual machine
 <details>
 <summary><b>The Training tracker or Prices show nothing.</b></summary>
 
-Keep the MapleStory window visible, not minimised, with the EXP bar showing. Training reads the HUD, and Prices reads the item you're hovering over. If you play through Steam or installed the game outside `C:\Nexon\Library`, choose its `MapleStory.exe` in **Window settings → Open with MapleStory → Change**.
+Keep the MapleStory window visible, not minimised, with the EXP bar showing. Training reads the HUD, and Prices reads the item you're hovering over. If you play through Steam or installed the game outside `C:\Nexon\Library`, choose its `MapleStory.exe` in **Settings** (the gear) **→ Open with MapleStory → Change**.
 </details>
 
 <details>
