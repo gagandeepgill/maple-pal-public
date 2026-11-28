@@ -9,6 +9,14 @@ Look anything up, get directions from where you stand, follow your quests, find 
 
 <a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest/download/MaplePal-Field-Guide-setup.exe"><img alt="Download for Windows (setup.exe)" src="docs/badges/download.svg" height="44"></a>
 
+> **Fan-made, not endorsed by NEXON. Use at your own risk.**
+>
+> MaplePal Field Guide is a fan tool, not made, approved or endorsed by NEXON. MapleStory is a trademark of NEXON.
+>
+> While you play, it only reads what's on your screen: it never reads or changes the game's memory or network traffic, and never presses keys or clicks for you.
+>
+> NEXON's terms forbid third-party programs they haven't approved, and NEXON hasn't said whether screen-reading tools like this one are allowed. Like any fan tool, using it could get your account suspended or banned.
+
 <a href="https://github.com/gagandeepgill/maple-pal-public/releases/latest"><img alt="Latest release" src="docs/badges/version.svg" height="28"></a>
 <img alt="Windows 10 and 11, 64-bit" src="docs/badges/windows.svg" height="28">
 <img alt="Updates itself" src="docs/badges/updates.svg" height="28">
@@ -146,7 +154,3 @@ Keep the MapleStory window visible, not minimised, with the EXP bar showing. Tra
 
 Uninstall **MaplePal Field Guide** from **Settings → Apps**. It also removes the **Open with MapleStory** sign-in watcher. Your data stays unless you tick **Delete the application data**.
 </details>
-
----
-
-<sub>MaplePal Field Guide is a fan-made tool and is not affiliated with or endorsed by Nexon. MapleStory is a trademark of Nexon.</sub>
